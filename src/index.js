@@ -21,6 +21,14 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
+
+  socket.on('disconnect', () => {
+    console.log('users disconnected: ', io.engine.clientsCount);
+  });
+
+  socket.conn.once('upgrade', (headers) => {
+    console.log('protocol: ', socket.conn.transport.name);
+  });
 });
 
 httpServer.listen(port, () => {
