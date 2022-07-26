@@ -18,17 +18,14 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+  // Basic events emission
+  socket.emit('hello', 'world!');
+  socket.on('server-hello', (data) => {
+    console.log(data);
   });
 
-  socket.on('disconnect', () => {
-    console.log('users disconnected: ', io.engine.clientsCount);
-  });
-
-  socket.conn.once('upgrade', (headers) => {
-    console.log('protocol: ', socket.conn.transport.name);
-  });
+  // Emit to all clients
+  io.emit('emit-to-all', `${socket.id} connected`);
 });
 
 httpServer.listen(port, () => {
