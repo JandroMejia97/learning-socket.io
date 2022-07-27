@@ -1,15 +1,10 @@
-const socket = io();
-
-function sendMessage() {
-  if (socket.connected) {
-    socket.emit('message', 'Hello from client!');
+const token = null
+const socket = io({
+  auth: {
+    token,
   }
-}
+});
 
-function disconnect() {
-  socket.disconnect();
-}
-
-function reconnect() {
-  socket.connect();
-}
+socket.on('connect_error', (error) => {
+  console.log(error.data.details);
+});

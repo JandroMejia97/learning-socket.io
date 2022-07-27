@@ -17,10 +17,20 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  if (token) {
+    next();
+  } else {
+    const error = new Error('Authentication error')
+    error.status = 401;
+    error.data = { details: 'Authentication error' };
+    next(error);
+  }
+});
+
 io.on('connection', (socket) => {
-  socket.on('message', (msg) => {
-    console.log(msg);
-  });
+  console.log('a user connected');
 });
 
 httpServer.listen(port, () => {
