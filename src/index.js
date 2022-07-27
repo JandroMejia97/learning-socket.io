@@ -4,6 +4,8 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
+process.env.DEBUG = 'socket.io:client';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
