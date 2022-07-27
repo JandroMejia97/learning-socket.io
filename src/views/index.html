@@ -8,17 +8,16 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <h1>
-    <span id="namespace"></span>
-    Chat
-  </h1>
-  <ul id="chat"></ul>
-
-  <form id="chatForm" action="none">
-    <input type="text" id="message" placeholder="Type a message...">
-    <input type="button" value="Send" onclick="sendMessage()">
-  </form>
-
+  
+  <button onclick="sendMessage()">
+    Send to all clients
+  </button>
+  <button onclick="disconnect()">
+    Disconnect
+  </button>
+  <button onclick="reconnect()">
+    Reconnect
+  </button>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/index.js"></script>
 </body>

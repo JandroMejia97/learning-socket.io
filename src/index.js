@@ -17,25 +17,12 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-const adminsIo = io.of('/admins');
-const usersIo = io.of('/users');
-
-adminsIo.on('connection', (socket) => {
-  socket.on('sendMessage', (data) => {
-    shareNewMessage(data, adminsIo);
-  });
-});
-
-usersIo.on('connection', (socket) => {
-  socket.on('sendMessage', (data) => {
-    shareNewMessage(data, usersIo);
+io.on('connection', (socket) => {
+  socket.on('message', (msg) => {
+    console.log(msg);
   });
 });
 
 httpServer.listen(port, () => {
   console.info(`Server listening on port ${port}`);
 });
-
-function shareNewMessage(data, namespace) {
-  namespace.emit('newMessage', data);
-}
