@@ -1,23 +1,29 @@
 const socket = io();
 
-socket.on('hello', (data) => {
-  console.log(data);
+const circle = document.querySelector('#circle');
+
+function dragStart(e) {
+  const { clientX, clientY } = e;
+  const position = {
+    top: `${clientY}px`,
+    left: `${clientX}px`,
+  };
+
+  moveCircle(position);
+  socket.emit('circlePosition', position);
+}
+
+function moveCircle(data) {
+  circle.style.top = data.top;
+  circle.style.left = data.left;
+}
+
+document.addEventListener('mousedown', (e) => {
+  document.addEventListener('mousemove', dragStart);
 });
 
-socket.on('emit-to-all', (data) => { 
-  console.log(data);
+document.addEventListener('mouseup', () => {
+  document.removeEventListener('mousemove', dragStart);
 });
 
-socket.on('last', (data) => {
-  console.log(data);
-});
-
-const emitToServer = document.querySelector('#emit-to-server');
-emitToServer.addEventListener('click', () => {
-  socket.emit('server-hello', 'world!');
-});
-
-const emitToLast = document.querySelector('#emit-to-last');
-emitToLast.addEventListener('click', () => {
-  socket.emit('last-hello', 'world!');
-});
+socket.on('moveCirclePosition', moveCircle);

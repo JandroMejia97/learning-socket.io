@@ -17,24 +17,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-const socketsOnline = [];
-
 io.on('connection', (socket) => {
-  socketsOnline.push(socket.id);
-
-  // Basic events emission
-  socket.emit('hello', 'world!');
-  socket.on('server-hello', (data) => {
-    console.log(data);
-  });
-
-  // Emit to all clients
-  io.emit('emit-to-all', `${socket.id} connected`);
-
-  // Emit to last client
-  socket.on('last-hello', (data) => {
-    const lastClient = socketsOnline[socketsOnline.length - 1];
-    io.to(lastClient).emit('last', data);
+  socket.on('circlePosition', (data) => {
+    socket.broadcast.emit('moveCirclePosition', data);
   });
 });
 
