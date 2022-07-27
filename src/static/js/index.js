@@ -10,7 +10,7 @@ function dragStart(e) {
   };
 
   moveCircle(position);
-  socket.emit('circlePosition', position);
+  socket.volatile.emit('circlePosition', position);
 }
 
 function moveCircle(data) {
