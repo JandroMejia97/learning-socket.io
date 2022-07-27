@@ -17,29 +17,25 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-io.on('connection', (socket) => {
-  socket.connectedRoom = null;
+const adminsIo = io.of('/admins');
+const usersIo = io.of('/users');
 
-  socket.on('connectToRoom', (room) => {
-    if (socket.connectedRoom) {
-      socket.leave(socket.connectedRoom);
-    }
-    socket.connectedRoom = room;
-    socket.join(room);
+adminsIo.on('connection', (socket) => {
+  socket.on('sendMessage', (data) => {
+    shareNewMessage(data, adminsIo);
   });
+});
 
-  socket.on('message', (message) => {
-    const room = socket.connectedRoom;
-    if (room) {
-      io.to(room).emit('newMessage', {
-        message,
-        room,
-        sender: socket.id,
-      });
-    }
+usersIo.on('connection', (socket) => {
+  socket.on('sendMessage', (data) => {
+    shareNewMessage(data, usersIo);
   });
 });
 
 httpServer.listen(port, () => {
   console.info(`Server listening on port ${port}`);
 });
+
+function shareNewMessage(data, namespace) {
+  namespace.emit('newMessage', data);
+}
