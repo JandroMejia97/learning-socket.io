@@ -18,8 +18,25 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('circlePosition', (data) => {
-    socket.broadcast.emit('moveCirclePosition', data);
+  socket.connectedRoom = null;
+
+  socket.on('connectToRoom', (room) => {
+    if (socket.connectedRoom) {
+      socket.leave(socket.connectedRoom);
+    }
+    socket.connectedRoom = room;
+    socket.join(room);
+  });
+
+  socket.on('message', (message) => {
+    const room = socket.connectedRoom;
+    if (room) {
+      io.to(room).emit('newMessage', {
+        message,
+        room,
+        sender: socket.id,
+      });
+    }
   });
 });
 

@@ -1,29 +1,27 @@
 const socket = io();
 
-const circle = document.querySelector('#circle');
-
-function dragStart(e) {
-  const { clientX, clientY } = e;
-  const position = {
-    top: `${clientY}px`,
-    left: `${clientX}px`,
-  };
-
-  moveCircle(position);
-  socket.emit('circlePosition', position);
+function connectTo() {
+  const connectRoom = document.getElementById('connect-room');
+  const connectRoomValue = connectRoom.value;
+  if (connectRoomValue) {
+    socket.emit('connectToRoom', `room${connectRoomValue}`);
+  }
 }
 
-function moveCircle(data) {
-  circle.style.top = data.top;
-  circle.style.left = data.left;
+function sendMessage() {
+  const message = document.getElementById('message');
+  const messageValue = message.value;
+  if (messageValue) {
+    socket.emit('message', messageValue);
+    message.value = '';
+  }
 }
 
-document.addEventListener('mousedown', (e) => {
-  document.addEventListener('mousemove', dragStart);
-});
+function receiveMessage({ room, sender, message }) {
+  const roomElement = document.getElementById(room);
+  const messageElement = document.createElement('li');
+  messageElement.textContent = `${sender}: ${message}`;
+  roomElement.appendChild(messageElement);
+}
 
-document.addEventListener('mouseup', () => {
-  document.removeEventListener('mousemove', dragStart);
-});
-
-socket.on('moveCirclePosition', moveCircle);
+socket.on('newMessage', receiveMessage);
