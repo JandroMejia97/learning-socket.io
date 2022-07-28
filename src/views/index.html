@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¡Server with Express and Socket.io!</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/chat.css">
 </head>
 <body>
   <header>
@@ -13,7 +14,23 @@
       Chat app with Socket.io
     </h1>
   </header>
-  <main></main>
+  <main>
+    <div id="all-messages">
+    </div>
+    <form action="#" method="post" class="send-message">
+      <input
+        type="text"
+        id="message"
+        placeholder="Enter your message">
+      <button
+        type="button"
+        id="send-message"
+        class="btn secondary"
+        onclick="sendMessage()">
+        Send
+      </button>
+    </form>
+  </main>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/index.js"></script>

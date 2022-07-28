@@ -8,5 +8,13 @@ export default function realtimeServer(httpServer, Server) {
     socket.on('disconnect', () => {
       console.info('Client disconnected');
     });
+
+    socket.on('sendMessage', (message) => {
+      const from = socket.handshake.headers.cookie.match(/username=([^;]+)/)[1];
+      io.emit('newMessage', {
+        message,
+        from,
+      });
+    });
   });
 }

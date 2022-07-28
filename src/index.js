@@ -6,6 +6,7 @@ import { Server } from 'socket.io';
 import realtimeServer from './realtime.server.js';
 import routes from './routes/index.js';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,6 +24,10 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 // Setting up the cookie parser
 app.use(cookieParser());
+
+// Setting up the body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Setting up the routes
 app.use(routes);
