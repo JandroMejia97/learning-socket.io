@@ -5,6 +5,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import realtimeServer from './realtime.server.js';
 import routes from './routes/index.js';
+import cookieParser from 'cookie-parser';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +20,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Setting up static files
 app.use(express.static(path.join(__dirname, 'static')));
+
+// Setting up the cookie parser
+app.use(cookieParser());
 
 // Setting up the routes
 app.use(routes);

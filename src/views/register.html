@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Server with Express and Socket.io!</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+  <header>
+    <h1>
+      Chat app with Socket.io
+    </h1>
+  </header>
+  <main>
+    <form class="card" action="#" method="post">
+      <div class="input-group">
+        <label for="username">
+          Username:
+        </label>
+        <input id="username" type="text" class="form-control" placeholder="Write your username!">
+      </div>
+      <!--
+        <div class="input-group">
+          <label for="password">
+            Password:
+            <input id="password" type="password" class="form-control">
+          </label>
+        </div>
+      -->
+      <div class="button-container">
+        <button type="submit" class="btn btn-primary">
+          Enter the chat
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/register.js"></script>
+</body>
+</html>
